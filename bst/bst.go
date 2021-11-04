@@ -2,8 +2,8 @@ package bst
 
 import (
 	"fmt"
+	"io"
 	"sync"
-	"time"
 )
 
 var wg sync.WaitGroup
@@ -30,17 +30,20 @@ func (s *Stack) POP() (*BST, bool) {
 }
 
 type BST struct {
-	Value int
-	Left  *BST
-	Right *BST
+	Value     int
+	Left      *BST
+	Right     *BST
+	AllValues []int
 }
 
 func NewBST(data int) *BST {
-	return &BST{data, nil, nil}
+	tmp := &BST{Value: data, Left: nil, Right: nil}
+	// tmp.AllValues = append(tmp.AllValues, data)
+	return tmp
 }
 
 func (n *BST) Process() {
-	time.Sleep(2 * time.Second) // add time consuming things
+	// time.Sleep(2 * time.Second) // add time consuming things
 	fmt.Print(n.Value, " ")
 }
 
@@ -79,10 +82,64 @@ func DF(n *BST) {
 			s.Push(current)
 			current = current.Left
 		} else {
-			current, _ = s.Pop()
+			current, _ = s.POP()
 			current.Process()
 			current = current.Right
 		}
+	}
+}
+
+func DFOrdered(n *BST) {
+	s := Stack{}
+	current := n
+	for {
+		if s.IsEmpty() && current == nil {
+			return
+		}
+		if current != nil {
+			s.Push(current)
+			current = current.Left
+		} else {
+			current, _ = s.POP()
+			current.Process()
+			current = current.Right
+		}
+	}
+}
+
+func (n *BST) Insert(v int) {
+	if n == nil {
+		return
+	} else if v < n.Value {
+		if n.Left == nil {
+			n.Left = &BST{Value: v, Left: nil, Right: nil}
+		} else {
+			n.Left.Insert(v)
+		}
+	} else {
+		if n.Right == nil {
+			n.Right = &BST{Value: v, Left: nil, Right: nil}
+		} else {
+			n.Right.Insert(v)
+		}
+	}
+}
+
+func PrintTree(w io.Writer, n *BST, ns int, ch rune) {
+	if n == nil {
+		return
+	}
+	for i := 0; i < ns; i++ {
+		fmt.Fprint(w, " ")
+	}
+	fmt.Fprintf(w, "%c:%v\n", ch, n.Value)
+	PrintTree(w, n.Left, ns+2, 'L')
+	PrintTree(w, n.Right, ns+2, 'R')
+}
+
+func (n *BST) InsertSlice(aSlice []int) {
+	for _, v := range aSlice {
+		n.Insert(v)
 	}
 }
 
