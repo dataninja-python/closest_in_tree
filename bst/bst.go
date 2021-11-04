@@ -30,10 +30,9 @@ func (s *Stack) POP() (*BST, bool) {
 }
 
 type BST struct {
-	Value     int
-	Left      *BST
-	Right     *BST
-	AllValues []int
+	Value int
+	Left  *BST
+	Right *BST
 }
 
 func NewBST(data int) *BST {
