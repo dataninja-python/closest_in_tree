@@ -1,6 +1,7 @@
 package bst
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"sync"
@@ -142,6 +143,60 @@ func (n *BST) InsertSlice(aSlice []int) {
 	}
 }
 
+func (n *BST) Insertb(value int) error {
+	if n == nil {
+		return errors.New("Tree is nil")
+	}
+
+	if n.Value > value {
+		if n.Left == nil {
+			n.Left = &BST{Value: value}
+			return nil
+		}
+		return n.Left.Insertb(value)
+	} else {
+		if n.Right == nil {
+			n.Right = &BST{Value: value}
+			return nil
+		}
+		return n.Right.Insertb(value)
+	}
+	return nil
+}
+
+func (n *BST) FindMin() int {
+	if n.Left == nil {
+		return n.Value
+	}
+	return n.Left.FindMin()
+}
+
+func (n *BST) FindMax() int {
+	if n.Right == nil {
+		return n.Value
+	}
+	return n.Right.FindMax()
+}
+
+func (n *BST) PrintInOrder() {
+	if n == nil {
+		return
+	}
+	n.Left.PrintInOrder()
+	fmt.Print(n.Value)
+	n.Right.PrintInOrder()
+}
+
+func (n *BST) FindClosest(target int) int {
+	// set variable for the gap
+	gap := 0
+
+	if n == nil {
+		return errors.New("Tree is nil")
+	}
+	return gap
+}
+
 func (tree *BST) FindClosestValue(target int) int {
 	// Write your code here.
 	return -1
@@ -152,3 +207,4 @@ func (tree *BST) FindClosestValue(target int) int {
 // https://www.golangprograms.com/golang-program-to-implement-binary-tree.html
 // https://www.bogotobogo.com/GoLang/GoLang_Binary_Search_Tree.php
 // https://medium.com/analytics-vidhya/how-to-speed-up-a-tree-structure-traversal-in-go-cd4bd6775520
+// levelup.gitconnected.com/binary-seaarch-trees-in-go-58f9126eb36b
