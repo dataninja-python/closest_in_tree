@@ -41,7 +41,7 @@ func main() {
 	}
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
 	// bst.DFRec(n)
-	// bst.DF(n)
+	bst.DF(n)
 	bst.DF(o)
 	fmt.Printf("\n")
 	fmt.Println("Mininum number in the tree: ", o.FindMin())
