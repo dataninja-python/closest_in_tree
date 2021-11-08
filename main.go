@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"os"
 )
 
 func timeTrack(start time.Time, name string) {
@@ -40,19 +41,23 @@ func main() {
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
 	// fmt.Println("Create tree using normal recusion: ", bst.DFRec(n))
 	// bst.DFRec(n)
-	fmt.Printf("\n")
+	// fmt.Printf("\n")
 	// bst.DF(n)
 	// bst.DFRecImproved(n)
 	// bst.DFRec(n)
-	fmt.Println("Create tree using loop and stack: ", bst.DF(n))
+	// fmt.Println("Create tree using loop and stack: ", bst.DF(n))
 	// bst.DF(n)
-	fmt.Printf("\n")
-	fmt.Println("Create tree using loop and stack: ", bst.DF(o))
+	// fmt.Printf("\n")
+	// fmt.Println("Create tree using loop and stack: ", bst.DF(o))
 	// bst.DF(o)
+	// fmt.Printf("\n")
 	fmt.Printf("\n")
-	fmt.Println("Mininum number in the tree: ", o.FindMin())
-	fmt.Println("Maximum number in the tree: ", o.FindMax())
+	fmt.Println("Mininum number in n tree: ", n.FindMin())
+	fmt.Println("Maximum number in n tree: ", n.FindMax())
+	bst.PrintTree(os.Stdout, n, 0, 'M')
 	fmt.Printf("\n")
-	bst.PrintTree(w, n, 0, 'M')
-	bst.PrintTree(w, o, 0, 'M')
+	fmt.Println("Mininum number in o tree: ", o.FindMin())
+	fmt.Println("Maximum number in o tree: ", o.FindMax())
+	bst.PrintTree(os.Stdout, o, 0, 'M')
+	fmt.Printf("\n")
 }
