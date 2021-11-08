@@ -2,7 +2,6 @@ package main
 
 import (
 	"closest_in_tree/bst"
-	"fmt"
 	"log"
 	"time"
 )
@@ -33,7 +32,7 @@ func main() {
 	}
 
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
-	// bst.DFRec(n)
-	bst.DF(n)
-	fmt.Println(n.AllValues)
+	bst.DFRec(n)
+	// bst.DF(n)
+	// bst.DFRecImproved(n)
 }

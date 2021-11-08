@@ -58,8 +58,6 @@ func DFRec(n *BST) {
 
 // recursively walk through tree
 func DFRecImproved(n *BST) {
-	defer wg.Done()
-
 	if n == nil {
 		return
 	}
@@ -68,6 +66,7 @@ func DFRecImproved(n *BST) {
 	n.Process()
 	wg.Add(1)
 	go DFRecImproved(n.Right)
+	wg.Done()
 }
 
 func DF(n *BST) {
