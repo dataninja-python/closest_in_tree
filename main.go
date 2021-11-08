@@ -2,12 +2,7 @@ package main
 
 import (
 	"closest_in_tree/bst"
-<<<<<<< HEAD
-=======
 	"fmt"
-
-	// "fmt"
->>>>>>> 65ff58360cfd522680705cab10cf2bb910ea8cf7
 	"log"
 	"time"
 )
@@ -43,13 +38,21 @@ func main() {
 		o.Insertb(w)
 	}
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
-	bst.DFRec(n)
+	// fmt.Println("Create tree using normal recusion: ", bst.DFRec(n))
+	// bst.DFRec(n)
+	fmt.Printf("\n")
 	// bst.DF(n)
 	// bst.DFRecImproved(n)
 	// bst.DFRec(n)
-	bst.DF(n)
-	bst.DF(o)
+	fmt.Println("Create tree using loop and stack: ", bst.DF(n))
+	// bst.DF(n)
+	fmt.Printf("\n")
+	fmt.Println("Create tree using loop and stack: ", bst.DF(o))
+	// bst.DF(o)
 	fmt.Printf("\n")
 	fmt.Println("Mininum number in the tree: ", o.FindMin())
 	fmt.Println("Maximum number in the tree: ", o.FindMax())
+	fmt.Printf("\n")
+	bst.PrintTree(w, n, 0, 'M')
+	bst.PrintTree(w, o, 0, 'M')
 }

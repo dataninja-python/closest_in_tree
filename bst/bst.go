@@ -186,14 +186,37 @@ func (n *BST) PrintInOrder() {
 	n.Right.PrintInOrder()
 }
 
-func (n *BST) FindClosest(target int) int {
-	// set variable for the gap
-	gap := 0
-
+// returns node that contains the supplied int param
+func (n *BST) FindNodeWithValue(v int) (BST, bool) {
+	// if tree is empty return empty tree and false
 	if n == nil {
-		return errors.New("Tree is nil")
+		return BST{}, false
 	}
-	return gap
+
+	// select from multiple options each time through recursion
+	switch {
+	// if the current node contains the value return it and true
+	// else keep recursively going through tree
+	case v == n.Value:
+		return *n, true
+	case v < n.Value:
+		return n.Left.FindNodeWithValue(v)
+	default:
+		return n.Right.FindNodeWithValue(v)
+	}
+}
+
+// returns the int and bool to say if first int param < second one
+// can use recursively in binary search to check walk through tree
+// Note: core check is if x < y, so if y <= x will return y
+func (n *BST) IsXLessThanY(x, y int) bool {
+	if x < y {
+		return true
+	}
+	// this capture if the values are equal
+	// child >= parent = right is how the tree is constructed
+	// thus, this is the proper way to execut this
+	return false
 }
 
 func (tree *BST) FindClosestValue(target int) int {
