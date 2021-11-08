@@ -2,6 +2,12 @@ package main
 
 import (
 	"closest_in_tree/bst"
+<<<<<<< HEAD
+=======
+	"fmt"
+
+	// "fmt"
+>>>>>>> 65ff58360cfd522680705cab10cf2bb910ea8cf7
 	"log"
 	"time"
 )
@@ -15,6 +21,7 @@ func main() {
 	defer timeTrack(time.Now(), "timeTrack")
 
 	n := bst.NewBST(10)
+	o := bst.NewBST(4)
 	// n := bst.NewBST(10)
 	// n.Left = bst.NewBST(5)
 	// n.Right = bst.NewBST(15)
@@ -31,8 +38,18 @@ func main() {
 		n.Insert(v)
 	}
 
+	bTreeSliceb := []int{1, 2, 3, 5, 6, 7, 8, 9}
+	for _, w := range bTreeSliceb {
+		o.Insertb(w)
+	}
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
 	bst.DFRec(n)
 	// bst.DF(n)
 	// bst.DFRecImproved(n)
+	// bst.DFRec(n)
+	bst.DF(n)
+	bst.DF(o)
+	fmt.Printf("\n")
+	fmt.Println("Mininum number in the tree: ", o.FindMin())
+	fmt.Println("Maximum number in the tree: ", o.FindMax())
 }
