@@ -21,4 +21,6 @@ func TestNodes(t *testing.T) {
 
 	bst.PrintTree(os.Stdout, gotTree.Top, 0, 'M')
 	fmt.Println(gotTree.Top.FindClosestValue(12))
+	fmt.Println(gotTree.Top.FindClosestValue(10))
+	fmt.Println(gotTree.Top.FindClosestValue(5))
 }
