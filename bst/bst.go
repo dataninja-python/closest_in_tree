@@ -230,12 +230,12 @@ func (tree *BST) FindClosestValue(target int) int {
 	}
 	if tree.Value > target {
 		if tree.Left == nil || tree.Left.Value > target {
-			return target.Value
+			return tree.Value
 		}
 		return tree.FindClosestValue(target)
 	} else {
 		if tree.Right == nil || tree.Right.Value < target {
-			return target.Value
+			return tree.Value
 		}
 		return tree.Right.FindClosestValue(target)
 	}
