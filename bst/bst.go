@@ -240,7 +240,7 @@ func (tree *BST) FindClosestValue(target int) int {
 		if tree.Right == nil {
 			return tree.Value
 		} else {
-			if (tree.Value-target) > (tree.Right.Value-target) && (tree.Right.Value-target) > 0 {
+			if (tree.Value-target) < (tree.Right.Value-target) && (tree.Right.Value-target) > 0 {
 				return tree.Right.FindClosestValue(target)
 			}
 			return tree.Value
