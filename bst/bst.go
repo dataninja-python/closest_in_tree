@@ -226,14 +226,16 @@ func (tree *BST) FindClosestValue(target int) int {
 	// difference on either side
 	if tree == nil {
 		return -1
+	} else if target == tree.Value {
+		return tree.Value
 	} else if target < tree.Value {
-		if tree.Left == nil {
+		if tree.Left == nil || target > tree.Left.Value {
 			return tree.Value
 		} else {
 			tree.Left.FindClosestValue(target)
 		}
 	} else {
-		if tree.Right == nil {
+		if tree.Right == nil || target < tree.Right.Value {
 			return tree.Value
 		} else {
 			tree.Right.FindClosestValue(target)
