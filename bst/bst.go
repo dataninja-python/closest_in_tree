@@ -225,33 +225,19 @@ func (tree *BST) FindClosestValue(target int) int {
 	// or smaller than the parent to walk the tree; return the value with the smallest
 	// difference on either side
 	if tree == nil {
-		errors.New("Empty tree")
 		return -1
-	}
-	/*if tree.Value > target {
-		if tree.Left == nil || tree.Left.Value < target {
-			return tree.Value
-		}
-		return tree.Left.FindClosestValue(target)
-	} else {
-		if tree.Right == nil || tree.Right.Value > target {
-			return tree.Value
-		}
-		return tree.Right.FindClosestValue(target)
-	}*/
-	switch {
-	case tree.Value == target:
-		return tree.Value
-	case tree.Value > target:
+	} else if target < tree.Value {
 		if tree.Left == nil {
 			return tree.Value
+		} else {
+			tree.Left.FindClosestValue(target)
 		}
-		return tree.Left.FindClosestValue(target)
-	default:
+	} else {
 		if tree.Right == nil {
 			return tree.Value
+		} else {
+			tree.Right.FindClosestValue(target)
 		}
-		return tree.Right.FindClosestValue(target)
 	}
 	return -1
 }
