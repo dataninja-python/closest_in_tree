@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"sort"
+
+	// "sort"
 	"time"
 )
 
@@ -31,13 +32,13 @@ func main() {
 
 	bTreeSlice := []int{5, 15, 2, 5, 13, 22, 1, 14}
 	// bTreeSlice = append(bTreeSlice)
-	sort.Ints(bTreeSlice)
+	// sort.Ints(bTreeSlice)
 	for _, v := range bTreeSlice {
 		n.Insert(v)
 	}
 
 	bTreeSliceb := []int{1, 2, 3, 5, 6, 7, 8, 9}
-	sort.Ints(bTreeSliceb)
+	// sort.Ints(bTreeSliceb)
 	for _, w := range bTreeSliceb {
 		o.Insertb(w)
 	}
