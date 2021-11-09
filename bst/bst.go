@@ -221,7 +221,23 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 }
 
 func (tree *BST) FindClosestValue(target int) int {
-	// Write your code here.
+	// Note: you are really checking to see based on whether the target is initially bigger
+	// or smaller than the parent to walk the tree; return the value with the smallest
+	// difference on either side
+	if tree == nil {
+		return -1
+	}
+	closestValue := tree.Value - target
+	switch {
+	case closestValue >= 0 && tree.Left != nil &&
+		tree.Right != nil && tree.Left.Value-target > 0 &&
+		closestValue < (tree.Right.Value-target):
+		return tree.Value
+	case target < tree.Value:
+		return tree.Left.FindClosestValue(target)
+	default:
+		return tree.Right.FindClosestValue(target)
+	}
 	return -1
 }
 
