@@ -224,21 +224,26 @@ func (tree *BST) FindClosestValue(target int) int {
 	// Note: you are really checking to see based on whether the target is initially bigger
 	// or smaller than the parent to walk the tree; return the value with the smallest
 	// difference on either side
-	if tree == nil {
-		return -1
-	} else if target == tree.Value {
+	switch {
+	case tree.Value == target:
 		return tree.Value
-	} else if target < tree.Value {
-		if tree.Left == nil || target > tree.Left.Value {
+	case tree.Value > target:
+		if tree.Left == nil {
 			return tree.Value
 		} else {
-			tree.Left.FindClosestValue(target)
+			if (tree.Value-target) > (tree.Left.Value-target) && (tree.Left.Value-target) > 0 {
+				return tree.Left.FindClosestValue(target)
+			}
+			return tree.Value
 		}
-	} else {
-		if tree.Right == nil || target < tree.Right.Value {
+	default:
+		if tree.Right == nil {
 			return tree.Value
 		} else {
-			tree.Right.FindClosestValue(target)
+			if (tree.Value-target) > (tree.Right.Value-target) && (tree.Right.Value-target) > 0 {
+				return tree.Right.FindClosestValue(target)
+			}
+			return tree.Value
 		}
 	}
 	return -1
