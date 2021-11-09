@@ -221,6 +221,17 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 
 func (tree *BST) FindClosestValue(target int) int {
 	// Write your code here.
+	if tree == nil {
+		return 0
+	}
+
+	if target < tree.Value {
+		// check left side of tree
+		fmt.Println(tree.Left.Value)
+	} else if target >= tree.Value {
+		// check right side of tree
+		fmt.Println(tree.Right.Value)
+	}
 	return -1
 }
 

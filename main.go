@@ -4,8 +4,8 @@ import (
 	"closest_in_tree/bst"
 	"fmt"
 	"log"
-	"time"
 	"os"
+	"time"
 )
 
 func timeTrack(start time.Time, name string) {
@@ -60,4 +60,10 @@ func main() {
 	fmt.Println("Maximum number in o tree: ", o.FindMax())
 	bst.PrintTree(os.Stdout, o, 0, 'M')
 	fmt.Printf("\n")
+
+	// p, _ := n.FindNodeWithValue(4)
+	// fmt.Println(p.Value)
+	// bst.PrintTree(os.Stdout, p, 0, 'M')
+	fmt.Println(n.FindClosestValue(4))
+
 }
