@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"sync"
 )
 
@@ -231,7 +232,7 @@ func (tree *BST) FindClosestValue(target int) int {
 		if tree.Left == nil {
 			return tree.Value
 		} else {
-			if (tree.Value-target) > (tree.Left.Value-target) && (tree.Left.Value-target) > 0 {
+			if int(math.Abs(float64(tree.Left.Value)-float64(target))) <= int(math.Abs(float64(tree.Value)-float64(target))) {
 				return tree.Left.FindClosestValue(target)
 			}
 			return tree.Value
@@ -240,7 +241,7 @@ func (tree *BST) FindClosestValue(target int) int {
 		if tree.Right == nil {
 			return tree.Value
 		} else {
-			if (tree.Value-target) < (tree.Right.Value-target) && (tree.Right.Value-target) > 0 {
+			if int(math.Abs(float64(tree.Right.Value)-float64(target))) <= int(math.Abs(float64(tree.Value)-float64(target))) {
 				return tree.Right.FindClosestValue(target)
 			}
 			return tree.Value
