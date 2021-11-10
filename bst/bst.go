@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"strconv"
 	"sync"
 )
 
@@ -33,9 +34,14 @@ func (s *Stack) POP() (*BST, bool) {
 }
 
 type BST struct {
+	Id    string
 	Value int
 	Left  *BST
 	Right *BST
+}
+
+type BTree struct {
+	root *BST
 }
 
 func NewBST(data int) *BST {
@@ -120,6 +126,24 @@ func (n *BST) Insert(v int) {
 	} else {
 		if n.Right == nil {
 			n.Right = &BST{Value: v, Left: nil, Right: nil}
+		} else {
+			n.Right.Insert(v)
+		}
+	}
+}
+
+func (n *BST) InsertC(v int) *BST {
+	if n.root == nil {
+		n.root = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
+	} else if v < n.Value {
+		if n.Left == nil {
+			n.Left = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
+		} else {
+			n.Left.Insert(v)
+		}
+	} else {
+		if n.Right == nil {
+			n.Right = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
 		} else {
 			n.Right.Insert(v)
 		}
