@@ -8,3 +8,6 @@ Though I am familiar with and have used similar node/graph based data structures
 Initially, I struggled to translate how I would have handled this in Python - with one or more classes - into a feasible Go implementation. Ultimately, I focused on lots of research to find how others had dealt with trees in the language. With this practice and numerous pseudocode revisions, I implemented this solution using Go structs.
 
 Interestingly, the real trick was figuring out that one needs to determine whether to continue recursing using the absolute value of the next and current node. I won't spoil it in case you want to try solving the problem yourself.
+
+Special thanks to information from the following sources:
+https://www.golangprograms.com/golang-program-to-implement-binary-tree.html

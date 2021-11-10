@@ -1,7 +1,6 @@
 package bst
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"math"
@@ -10,7 +9,6 @@ import (
 )
 
 var wg sync.WaitGroup
-var leastMap map[int]int
 
 type Stack []BST
 
@@ -114,27 +112,18 @@ func DFOrdered(n *BST) {
 	}
 }
 
+func (t *BTree) Insert(v int) *BTree {
+	if t.root == nil {
+		t.root = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
+	} else {
+		t.root.Insert(v)
+	}
+	return t
+}
+
 func (n *BST) Insert(v int) {
 	if n == nil {
 		return
-	} else if v < n.Value {
-		if n.Left == nil {
-			n.Left = &BST{Value: v, Left: nil, Right: nil}
-		} else {
-			n.Left.Insert(v)
-		}
-	} else {
-		if n.Right == nil {
-			n.Right = &BST{Value: v, Left: nil, Right: nil}
-		} else {
-			n.Right.Insert(v)
-		}
-	}
-}
-
-func (n *BST) InsertC(v int) *BST {
-	if n.root == nil {
-		n.root = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
 	} else if v < n.Value {
 		if n.Left == nil {
 			n.Left = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
@@ -166,27 +155,6 @@ func (n *BST) InsertSlice(aSlice []int) {
 	for _, v := range aSlice {
 		n.Insert(v)
 	}
-}
-
-func (n *BST) Insertb(value int) error {
-	if n == nil {
-		return errors.New("Tree is nil")
-	}
-
-	if n.Value > value {
-		if n.Left == nil {
-			n.Left = &BST{Value: value}
-			return nil
-		}
-		return n.Left.Insertb(value)
-	} else {
-		if n.Right == nil {
-			n.Right = &BST{Value: value}
-			return nil
-		}
-		return n.Right.Insertb(value)
-	}
-	return nil
 }
 
 func (n *BST) FindMin() int {
@@ -245,6 +213,12 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
+func (t *BTree) CreateBST(a []int) {
+	for _, v := range a {
+		t.Insert(v)
+	}
+}
+
 func (tree *BST) FindClosestValue(target int) int {
 	// Note: you are really checking to see based on whether the target is initially bigger
 	// or smaller than the parent to walk the tree; return the value with the smallest
@@ -274,7 +248,7 @@ func (tree *BST) FindClosestValue(target int) int {
 	return -1
 }
 
-// NOTE: I have never really been exposed to binary trees or graphs except as
+// NOTE: I have not used binary trees or graphs in decades except as
 // objects or databases; so I learned initially from these implementations:
 // https://www.golangprograms.com/golang-program-to-implement-binary-tree.html
 // https://www.bogotobogo.com/GoLang/GoLang_Binary_Search_Tree.php

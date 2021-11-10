@@ -1,10 +1,7 @@
 package main
 
 import (
-	"closest_in_tree/bst"
-	"fmt"
 	"log"
-	"os"
 
 	// "sort"
 	"time"
@@ -18,8 +15,8 @@ func timeTrack(start time.Time, name string) {
 func main() {
 	defer timeTrack(time.Now(), "timeTrack")
 
-	n := bst.NewBST(10)
-	o := bst.NewBST(4)
+	// n := bst.NewBST(10)
+	// o := bst.NewBST(4)
 	// n := bst.NewBST(10)
 	// n.Left = bst.NewBST(5)
 	// n.Right = bst.NewBST(15)
@@ -30,18 +27,18 @@ func main() {
 	// n.Left.Left.Left = bst.NewBST(1)
 	// n.Right.Left.Left = bst.NewBST(14)
 
-	bTreeSlice := []int{5, 15, 2, 5, 13, 22, 1, 14}
+	// bTreeSlice := []int{5, 15, 2, 5, 13, 22, 1, 14}
 	// bTreeSlice = append(bTreeSlice)
 	// sort.Ints(bTreeSlice)
-	for _, v := range bTreeSlice {
+	/*for _, v := range bTreeSlice {
 		n.Insert(v)
-	}
+	}*/
 
-	bTreeSliceb := []int{1, 2, 3, 5, 6, 7, 8, 9}
+	//bTreeSliceb := []int{1, 2, 3, 5, 6, 7, 8, 9}
 	// sort.Ints(bTreeSliceb)
-	for _, w := range bTreeSliceb {
+	/*for _, w := range bTreeSliceb {
 		o.Insertb(w)
-	}
+	}*/
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
 	// fmt.Println("Create tree using normal recusion: ", bst.DFRec(n))
 	// bst.DFRec(n)
@@ -55,7 +52,7 @@ func main() {
 	// fmt.Println("Create tree using loop and stack: ", bst.DF(o))
 	// bst.DF(o)
 	// fmt.Printf("\n")
-	fmt.Printf("\n")
+	/*fmt.Printf("\n")
 	fmt.Println("Mininum number in n tree: ", n.FindMin())
 	fmt.Println("Maximum number in n tree: ", n.FindMax())
 	bst.PrintTree(os.Stdout, n, 0, 'M')
@@ -64,12 +61,13 @@ func main() {
 	fmt.Println("Maximum number in o tree: ", o.FindMax())
 	bst.PrintTree(os.Stdout, o, 0, 'M')
 	fmt.Printf("\n")
-
+	*/
 	// p, _ := n.FindNodeWithValue(4)
 	// fmt.Println(p.Value)
 	// bst.PrintTree(os.Stdout, p, 0, 'M')
-	t := 0
+	/*t := 0
 	fmt.Println("Target to find closest number to in tree below: ", t)
 	fmt.Println(n.FindClosestValue(t))
 	bst.PrintTree(os.Stdout, n, 0, 'M')
+	*/
 }
