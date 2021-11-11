@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math"
 	"sync"
 )
 
@@ -235,14 +234,8 @@ func (tree *BST) FindClosestValue(target int) int {
 			fmt.Println("returning: ", tree.Value)
 			return tree.Value
 		} else {
-			l := int(math.Abs(float64(tree.Left.Value) - float64(target)))
-			c := int(math.Abs(float64(tree.Value) - float64(target)))
-			fmt.Println(l, " :l <= c: ", c)
-			if l <= c {
-				return tree.Left.FindClosestValue(target)
-			}
-			fmt.Println("Returning: ", tree.Value)
-			// return tree.Value
+			fmt.Println("going to: ", tree.Left.Value)
+			return tree.Left.FindClosestValue(target)
 		}
 	default:
 		fmt.Println("going to the right of: ", tree.Value)
@@ -250,14 +243,8 @@ func (tree *BST) FindClosestValue(target int) int {
 			fmt.Println("returning: ", tree.Value)
 			return tree.Value
 		} else {
-			r := int(math.Abs(float64(tree.Right.Value) - float64(target)))
-			c := int(math.Abs(float64(tree.Value) - float64(target)))
-			fmt.Println(c, " :c <= r: ", r)
-			if c <= r {
-				fmt.Println("returning: ", tree.Value)
-				return tree.Right.FindClosestValue(target)
-			}
-			// return tree.Right.FindClosestValue(target)
+			fmt.Println("going to: ", tree.Right.Value)
+			return tree.Right.FindClosestValue(target)
 		}
 	}
 	return -1
