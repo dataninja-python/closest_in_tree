@@ -235,7 +235,7 @@ func (tree *BST) FindClosestValue(target int) int {
 			return tree.Value
 		} else {
 			if tree.Left.Value < target {
-				fmt.Println(tree.Left.Value, " :is between: ", target)
+				fmt.Println(target, " :is between: ", tree.Value, " and ", tree.Left.Value)
 				return tree.Value
 			}
 			fmt.Println("going to: ", tree.Left.Value)
@@ -248,7 +248,7 @@ func (tree *BST) FindClosestValue(target int) int {
 			return tree.Value
 		} else {
 			if tree.Right.Value > target {
-				fmt.Println(target, " :is between: ", tree.Right.Value)
+				fmt.Println(target, " :is between: ", tree.Value, " and ", tree.Right.Value)
 				return tree.Value
 			}
 			fmt.Println("going to: ", tree.Right.Value)
