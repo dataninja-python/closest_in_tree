@@ -3,7 +3,7 @@ package main
 import (
 	"closest_in_tree/bst"
 	// "fmt"
-
+	"os"
 	"testing"
 )
 
@@ -19,5 +19,6 @@ func TestNodes(t *testing.T) {
 	// treeSlice2 := []int{4, 1, 2, 3, 5, 6, 7, 8, 9}
 
 	tree1 := &bst.BTree{}
-	tree1 = createBST(treeSlice1, tree1)
+	tree1.CreateBST(treeSlice1)
+	bst.PrintTree(os.Stdout, tree1, 0, 'M')
 }

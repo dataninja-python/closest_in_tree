@@ -1,7 +1,10 @@
 package main
 
 import (
+	"closest_in_tree/bst"
+	"fmt"
 	"log"
+	"os"
 
 	// "sort"
 	"time"
@@ -12,10 +15,17 @@ func timeTrack(start time.Time, name string) {
 	log.Printf("%s took %s", name, elapsed)
 }
 
+/* func getSlice(a []int, node *bst.BST) {
+	for _, v := range a {
+		node.Insert(v)
+	}
+} */
+
 func main() {
 	defer timeTrack(time.Now(), "timeTrack")
 
 	// n := bst.NewBST(10)
+	n1 := bst.NewBST(100)
 	// o := bst.NewBST(4)
 	// n := bst.NewBST(10)
 	// n.Left = bst.NewBST(5)
@@ -28,18 +38,24 @@ func main() {
 	// n.Right.Left.Left = bst.NewBST(14)
 
 	// bTreeSlice := []int{5, 15, 2, 5, 13, 22, 1, 14}
+	bTreeSlice1 := []int{502, 55000, 1001, 4500, 204, 205, 207, 208, 206, 203,
+		5, 15, 22, 57, 60, 5, 2, 3, 1, 1, 1, 1, 1, -51, -403}
 	// bTreeSlice = append(bTreeSlice)
 	// sort.Ints(bTreeSlice)
-	/*for _, v := range bTreeSlice {
+	/* for _, v := range bTreeSlice {
 		n.Insert(v)
-	}*/
+	} */
 
+	for _, w := range bTreeSlice1 {
+		n1.Insert(w)
+	}
 	//bTreeSliceb := []int{1, 2, 3, 5, 6, 7, 8, 9}
 	// sort.Ints(bTreeSliceb)
 	/*for _, w := range bTreeSliceb {
 		o.Insertb(w)
 	}*/
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
+	bst.PrintTree(os.Stdout, n1, 0, 'M')
 	// fmt.Println("Create tree using normal recusion: ", bst.DFRec(n))
 	// bst.DFRec(n)
 	// fmt.Printf("\n")
@@ -65,9 +81,13 @@ func main() {
 	// p, _ := n.FindNodeWithValue(4)
 	// fmt.Println(p.Value)
 	// bst.PrintTree(os.Stdout, p, 0, 'M')
-	/*t := 0
-	fmt.Println("Target to find closest number to in tree below: ", t)
-	fmt.Println(n.FindClosestValue(t))
-	bst.PrintTree(os.Stdout, n, 0, 'M')
-	*/
+	// t := 12
+	// fmt.Println("Target to find closest number to in tree below: ", t)
+	// fmt.Println(n.FindClosestValue(t))
+	// bst.PrintTree(os.Stdout, n, 0, 'M')
+
+	t1 := 4500
+	fmt.Println("Target to find closest number to in tree below: ", t1)
+	fmt.Println(n1.FindClosestValue(t1))
+	bst.PrintTree(os.Stdout, n1, 0, 'M')
 }

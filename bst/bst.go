@@ -1,14 +1,15 @@
 package bst
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"math"
-	"strconv"
 	"sync"
 )
 
 var wg sync.WaitGroup
+var leastMap map[int]int
 
 type Stack []BST
 
@@ -32,14 +33,9 @@ func (s *Stack) POP() (*BST, bool) {
 }
 
 type BST struct {
-	Id    string
 	Value int
 	Left  *BST
 	Right *BST
-}
-
-type BTree struct {
-	root *BST
 }
 
 func NewBST(data int) *BST {
@@ -112,27 +108,18 @@ func DFOrdered(n *BST) {
 	}
 }
 
-func (t *BTree) Insert(v int) *BTree {
-	if t.root == nil {
-		t.root = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
-	} else {
-		t.root.Insert(v)
-	}
-	return t
-}
-
 func (n *BST) Insert(v int) {
 	if n == nil {
 		return
 	} else if v < n.Value {
 		if n.Left == nil {
-			n.Left = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
+			n.Left = &BST{Value: v, Left: nil, Right: nil}
 		} else {
 			n.Left.Insert(v)
 		}
 	} else {
 		if n.Right == nil {
-			n.Right = &BST{Id: strconv.Itoa(v), Value: v, Left: nil, Right: nil}
+			n.Right = &BST{Value: v, Left: nil, Right: nil}
 		} else {
 			n.Right.Insert(v)
 		}
@@ -155,6 +142,27 @@ func (n *BST) InsertSlice(aSlice []int) {
 	for _, v := range aSlice {
 		n.Insert(v)
 	}
+}
+
+func (n *BST) Insertb(value int) error {
+	if n == nil {
+		return errors.New("Tree is nil")
+	}
+
+	if n.Value > value {
+		if n.Left == nil {
+			n.Left = &BST{Value: value}
+			return nil
+		}
+		return n.Left.Insertb(value)
+	} else {
+		if n.Right == nil {
+			n.Right = &BST{Value: value}
+			return nil
+		}
+		return n.Right.Insertb(value)
+	}
+	return nil
 }
 
 func (n *BST) FindMin() int {
@@ -213,42 +221,49 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
-func (t *BTree) CreateBST(a []int) {
-	for _, v := range a {
-		t.Insert(v)
-	}
-}
-
 func (tree *BST) FindClosestValue(target int) int {
 	// Note: you are really checking to see based on whether the target is initially bigger
 	// or smaller than the parent to walk the tree; return the value with the smallest
 	// difference on either side
 	switch {
 	case tree.Value == target:
+		fmt.Println(tree.Value, " = ", target)
 		return tree.Value
 	case tree.Value > target:
+		fmt.Println("going to the left of: ", tree.Value)
 		if tree.Left == nil {
+			fmt.Println("returning: ", tree.Value)
 			return tree.Value
 		} else {
-			if int(math.Abs(float64(tree.Left.Value)-float64(target))) <= int(math.Abs(float64(tree.Value)-float64(target))) {
+			l := int(math.Abs(float64(tree.Left.Value) - float64(target)))
+			c := int(math.Abs(float64(tree.Value) - float64(target)))
+			fmt.Println(l, " :l <= c: ", c)
+			if l <= c {
 				return tree.Left.FindClosestValue(target)
 			}
-			return tree.Value
+			fmt.Println("Returning: ", tree.Value)
+			// return tree.Value
 		}
 	default:
+		fmt.Println("going to the right of: ", tree.Value)
 		if tree.Right == nil {
+			fmt.Println("returning: ", tree.Value)
 			return tree.Value
 		} else {
-			if int(math.Abs(float64(tree.Right.Value)-float64(target))) <= int(math.Abs(float64(tree.Value)-float64(target))) {
+			r := int(math.Abs(float64(tree.Right.Value) - float64(target)))
+			c := int(math.Abs(float64(tree.Value) - float64(target)))
+			fmt.Println(c, " :c <= r: ", r)
+			if c <= r {
+				fmt.Println("returning: ", tree.Value)
 				return tree.Right.FindClosestValue(target)
 			}
-			return tree.Value
+			// return tree.Right.FindClosestValue(target)
 		}
 	}
 	return -1
 }
 
-// NOTE: I have not used binary trees or graphs in decades except as
+// NOTE: I have never really been exposed to binary trees or graphs except as
 // objects or databases; so I learned initially from these implementations:
 // https://www.golangprograms.com/golang-program-to-implement-binary-tree.html
 // https://www.bogotobogo.com/GoLang/GoLang_Binary_Search_Tree.php
