@@ -9,7 +9,6 @@ import (
 )
 
 var wg sync.WaitGroup
-var leastMap map[int]int
 
 type Stack []BST
 
@@ -38,14 +37,17 @@ type BST struct {
 	Right *BST
 }
 
+type VAL struct {
+	keys  []int
+	diffs []int
+}
+
 func NewBST(data int) *BST {
 	tmp := &BST{Value: data, Left: nil, Right: nil}
-	// tmp.AllValues = append(tmp.AllValues, data)
 	return tmp
 }
 
 func (n *BST) Process() {
-	// time.Sleep(2 * time.Second) // add time consuming things
 	fmt.Print(n.Value, " ")
 }
 
@@ -162,7 +164,6 @@ func (n *BST) Insertb(value int) error {
 		}
 		return n.Right.Insertb(value)
 	}
-	return nil
 }
 
 func (n *BST) FindMin() int {
@@ -221,92 +222,19 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
-var minVal int
-var minDiff int
+func (v *VAL) getValues(t2 int, t *BST) {
+	c := int(math.Abs(float64(t.Value) - float64(t2)))
+	switch {
+
+	}
+}
 
 func (tree *BST) FindClosestValue(target int) int {
-	// Note: you are really checking to see based on whether the target is initially bigger
-	// or smaller than the parent to walk the tree; return the value with the smallest
-	// difference on either side
-	// Note1: new strategy walk entire tree as though adding the target
-	// save the difference to each key in the map; then walk the find the lowest
-	// difference and return that key
-	walkedTree := make(map[int]int)
-
-	// function to walk tree and save results to map
-	// this is a recursive function
-	walkTree := func(t int) int {
-		c := int(math.Abs(float64(tree.Value) - float64(t)))
-		walkedTree[tree.Value] = c
-		switch {
-		case tree.Value == t:
-			// if equal, return the tree value
-			// add value to map before returning
-			c := int(math.Abs(float64(tree.Value) - float64(t)))
-			walkedTree[tree.Value] = c
-			return tree.Value
-		case tree.Value > t:
-			// target number < current node
-			// so should be placed left of current node
-			// if there isn't anything further to the left return current node
-			if tree.Left == nil {
-				// save current node value to map
-				c := int(math.Abs(float64(tree.Value) - float64(t)))
-				walkedTree[tree.Value] = c
-				return tree.Value
-			}
-			// c := int(math.Abs(float64(tree.Left.Value) - float64(t)))
-			// walkedTree[tree.Left.Value] = c
-			return tree.Left.FindClosestValue(t)
-		default:
-			// target number >= than current node
-			// so should be placed right of current node
-			if tree.Right == nil {
-				// save current node value to map
-				c := int(math.Abs(float64(tree.Value) - float64(t)))
-				walkedTree[tree.Value] = c
-				return tree.Value
-			}
-			// c := int(math.Abs(float64(tree.Right.Value) - float64(t)))
-			// walkedTree[tree.Right.Value] = c
-			return tree.Right.FindClosestValue(t)
-		}
-	}
-	_ = walkTree(target)
-
-	keys := []int{}
-	values := []int{}
-	minVal := 0
-	minDiff := 0
-
-	for k, v := range walkedTree {
-		keys = append(keys, k)
-		values = append(values, v)
-	}
-	// sort.Ints(keys)
-	// fmt.Println(keys)
-	fmt.Println(values)
-	for i := 0; i < len(values); i++ {
-		if i == 0 {
-			minDiff = values[i]
-			minVal = keys[i]
-		}
-		if values[i] <= minDiff {
-			minDiff = values[i]
-			minVal = keys[i]
-		}
-	}
-	/*minVal = 0
-	minDiff = 0
-	for k, e := range walkedTree {
-		if minDiff >= e {
-			minDiff = e
-			minVal = k
-		}
-		fmt.Println("Key: ", k, " => Element: ", e)
-		fmt.Println("Min diff = ", minDiff, " Min value = ", minVal)
-	}*/
-	return minVal
+	// starting from scratch again
+	nodesList := []int{}
+	diffsList := []int{}
+	valueLists := VAL{nodesList, diffsList}
+	return -1
 }
 
 // NOTE: I have not used binary trees or graphs in decades except as
