@@ -221,92 +221,58 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
-var minVal int
-var minDiff int
-
 func (tree *BST) FindClosestValue(target int) int {
 	// Note: you are really checking to see based on whether the target is initially bigger
 	// or smaller than the parent to walk the tree; return the value with the smallest
 	// difference on either side
-	// Note1: new strategy walk entire tree as though adding the target
-	// save the difference to each key in the map; then walk the find the lowest
-	// difference and return that key
-	walkedTree := make(map[int]int)
-
-	// function to walk tree and save results to map
-	// this is a recursive function
-	walkTree := func(t int) int {
-		c := int(math.Abs(float64(tree.Value) - float64(t)))
-		walkedTree[tree.Value] = c
-		switch {
-		case tree.Value == t:
-			// if equal, return the tree value
-			// add value to map before returning
-			c := int(math.Abs(float64(tree.Value) - float64(t)))
-			walkedTree[tree.Value] = c
+	switch {
+	case tree.Value == target:
+		fmt.Println(tree.Value, " = ", target)
+		return tree.Value
+	case tree.Value > target:
+		fmt.Println("going to the left of: ", tree.Value)
+		if tree.Left == nil {
+			fmt.Println("returning: ", tree.Value)
 			return tree.Value
-		case tree.Value > t:
-			// target number < current node
-			// so should be placed left of current node
-			// if there isn't anything further to the left return current node
-			if tree.Left == nil {
-				// save current node value to map
-				c := int(math.Abs(float64(tree.Value) - float64(t)))
-				walkedTree[tree.Value] = c
+		} else {
+			if tree.Left.Value < target {
+				c := int(math.Abs(float64(tree.Value) - float64(target)))
+				l := int(math.Abs(float64(tree.Left.Value) - float64(target)))
+				if l < c {
+					fmt.Println(l, " :left node diff < current node diff: ", c)
+					fmt.Println("Returning the left node value: ", tree.Left.Value)
+					return tree.Left.Value
+				}
+				fmt.Println(c, " :current node diff <= left node diff: ", l)
+				fmt.Println("Returning the current node value: ", tree.Value)
 				return tree.Value
 			}
-			// c := int(math.Abs(float64(tree.Left.Value) - float64(t)))
-			// walkedTree[tree.Left.Value] = c
-			return tree.Left.FindClosestValue(t)
-		default:
-			// target number >= than current node
-			// so should be placed right of current node
-			if tree.Right == nil {
-				// save current node value to map
-				c := int(math.Abs(float64(tree.Value) - float64(t)))
-				walkedTree[tree.Value] = c
+			fmt.Println("going to: ", tree.Left.Value)
+			return tree.Left.FindClosestValue(target)
+		}
+	default:
+		fmt.Println("going to the right of: ", tree.Value)
+		if tree.Right == nil {
+			fmt.Println("returning: ", tree.Value)
+			return tree.Value
+		} else {
+			if tree.Right.Value > target {
+				c := int(math.Abs(float64(tree.Value) - float64(target)))
+				r := int(math.Abs(float64(tree.Right.Value) - float64(target)))
+				if r < c {
+					fmt.Println(r, " :right node diff < current node diff: ", c)
+					fmt.Println("Returning the right node value: ", tree.Right.Value)
+					return tree.Right.Value
+				}
+				fmt.Println(c, " :current node diff <= right node diff: ", r)
+				fmt.Println("Returning the current node value: ", tree.Value)
 				return tree.Value
 			}
-			// c := int(math.Abs(float64(tree.Right.Value) - float64(t)))
-			// walkedTree[tree.Right.Value] = c
-			return tree.Right.FindClosestValue(t)
+			fmt.Println("going to: ", tree.Right.Value)
+			return tree.Right.FindClosestValue(target)
 		}
 	}
-	_ = walkTree(target)
-
-	keys := []int{}
-	values := []int{}
-	minVal := 0
-	minDiff := 0
-
-	for k, v := range walkedTree {
-		keys = append(keys, k)
-		values = append(values, v)
-	}
-	// sort.Ints(keys)
-	// fmt.Println(keys)
-	fmt.Println(values)
-	for i := 0; i < len(values); i++ {
-		if i == 0 {
-			minDiff = values[i]
-			minVal = keys[i]
-		}
-		if values[i] <= minDiff {
-			minDiff = values[i]
-			minVal = keys[i]
-		}
-	}
-	/*minVal = 0
-	minDiff = 0
-	for k, e := range walkedTree {
-		if minDiff >= e {
-			minDiff = e
-			minVal = k
-		}
-		fmt.Println("Key: ", k, " => Element: ", e)
-		fmt.Println("Min diff = ", minDiff, " Min value = ", minVal)
-	}*/
-	return minVal
+	return -1
 }
 
 // NOTE: I have not used binary trees or graphs in decades except as

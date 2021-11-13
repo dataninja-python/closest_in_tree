@@ -4,7 +4,6 @@ import (
 	"closest_in_tree/bst"
 	"fmt"
 	"log"
-	"os"
 
 	// "sort"
 	"time"
@@ -55,7 +54,7 @@ func main() {
 		o.Insertb(w)
 	}*/
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
-	bst.PrintTree(os.Stdout, n1, 0, 'M')
+	// bst.PrintTree(os.Stdout, n1, 0, 'M')
 	// fmt.Println("Create tree using normal recusion: ", bst.DFRec(n))
 	// bst.DFRec(n)
 	// fmt.Printf("\n")
@@ -89,5 +88,5 @@ func main() {
 	t1 := 29749
 	fmt.Println("Target to find closest number to in tree below: ", t1)
 	fmt.Println(n1.FindClosestValue(t1))
-	bst.PrintTree(os.Stdout, n1, 0, 'M')
+	// bst.PrintTree(os.Stdout, n1, 0, 'M')
 }
