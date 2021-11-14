@@ -234,6 +234,9 @@ func (tree *BST) FindClosestValue(target int) int {
 	nodesList := []int{}
 	diffsList := []int{}
 	valueLists := VAL{nodesList, diffsList}
+	walkTree := func(vl *VAL) t {
+		// do something a bunch of times through the tree
+	}
 	return -1
 }
 
