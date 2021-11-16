@@ -222,20 +222,29 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
-func (v *VAL) getValues(t2 int, t *BST) {
-	c := int(math.Abs(float64(t.Value) - float64(t2)))
-	switch {
-
-	}
-}
-
 func (tree *BST) FindClosestValue(target int) int {
-	// starting from scratch again
-	nodesList := []int{}
-	diffsList := []int{}
-	valueLists := VAL{nodesList, diffsList}
-	walkTree := func(vl *VAL) t {
-		// do something a bunch of times through the tree
+	// pseudocode:
+	// walk every node that the new value would walk to fit in the tree
+	// check the following cases:
+	// (a) if equal to value then obviously return the current node
+	// (b) if inbetween the left value, then return node or move to left
+	// (c) if inbetween the right value, then return node or move to right
+	switch {
+	case tree.Value == t:
+		return tree.Value
+	case t < tree.Value && tree.Left == nil:
+		return tree.Value
+	case t < tree.Value && tree.Left != nil && tree.Value > 0:
+		return tree.Left.FindClosestValue(t)
+	case t < tree.Value && tree.Left != nil && tree.Value <= 0:
+		if int(math.Abs(float64(t))-math.Abs(float64(tree.Value))) >= int(math.Abs(float64(t))-math.Abs(float64(tree.Left.Value))) {
+			return tree.Value
+		}
+		return tree.Left.FindClosestValue(t)
+	case t >= tree.Value && tree.Right != nil:
+
+	default:
+		return tree.Value
 	}
 	return -1
 }
