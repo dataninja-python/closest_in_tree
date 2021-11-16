@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math"
 	"sync"
 )
 
@@ -222,30 +221,39 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
+func getAllNodeValues(aTree *BST, theTarget int, theMap map[int]bool) map[int]bool {
+	switch {
+	case aTree.Value == theTarget:
+		if _, ok := theMap[aTree.Value]; !ok {
+			theMap[aTree.Value] = true
+		}
+		return theMap
+	case theTarget < aTree.Value:
+		if aTree.Left == nil {
+			if _, ok := theMap[aTree.Value]; !ok {
+				theMap[aTree.Value] = true
+			}
+			return theMap
+		}
+		getAllNodeValues(aTree, theTarget, theMap)
+	default:
+		if aTree.Right == nil {
+			if _, ok := theMap[aTree.Value]; !ok {
+				theMap[aTree.Value] = true
+			}
+			return theMap
+		}
+		getAllNodeValues(aTree, theTarget, theMap)
+	}
+	return theMap
+}
+
 func (tree *BST) FindClosestValue(target int) int {
 	// pseudocode:
 	// walk every node that the new value would walk to fit in the tree
-	// check the following cases:
-	// (a) if equal to value then obviously return the current node
-	// (b) if inbetween the left value, then return node or move to left
-	// (c) if inbetween the right value, then return node or move to right
-	switch {
-	case tree.Value == t:
-		return tree.Value
-	case t < tree.Value && tree.Left == nil:
-		return tree.Value
-	case t < tree.Value && tree.Left != nil && tree.Value > 0:
-		return tree.Left.FindClosestValue(t)
-	case t < tree.Value && tree.Left != nil && tree.Value <= 0:
-		if int(math.Abs(float64(t))-math.Abs(float64(tree.Value))) >= int(math.Abs(float64(t))-math.Abs(float64(tree.Left.Value))) {
-			return tree.Value
-		}
-		return tree.Left.FindClosestValue(t)
-	case t >= tree.Value && tree.Right != nil:
-
-	default:
-		return tree.Value
-	}
+	emptyMap := make(map[int]bool)
+	nodeMap := getAllNodeValues(tree, target, emptyMap)
+	fmt.Println(nodeMap)
 	return -1
 }
 
