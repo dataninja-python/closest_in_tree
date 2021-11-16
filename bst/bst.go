@@ -36,17 +36,8 @@ type BST struct {
 	Right *BST
 }
 
-type VAL struct {
-	nodeList *[]int
-}
-
 func NewBST(data int) *BST {
 	tmp := &BST{Value: data, Left: nil, Right: nil}
-	return tmp
-}
-
-func newVal() *VAL {
-	tmp := &VAL{nodeList: []int{}}
 	return tmp
 }
 
@@ -65,7 +56,7 @@ func DFRec(n *BST) {
 }
 
 // recursively walk through tree
-func DFRecImproved(n *BST) {
+/*func DFRecImproved(n *BST) {
 	if n == nil {
 		return
 	}
@@ -93,7 +84,7 @@ func DF(n *BST) {
 			current = current.Right
 		}
 	}
-}
+}*/
 
 func DFOrdered(n *BST) {
 	s := Stack{}
@@ -225,19 +216,33 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
-func (aNodeList *VAL) getAllNodes(t *BST, n int) {
-}
-
-func (aNodeList *VAL) addToNodeList(n int) {
-	aNodeList.nodeList = append(&aNodeList.nodeList, n)
-}
-
 func (tree *BST) FindClosestValue(target int) int {
 	// pseudocode:
 	// walk every node that the new value would walk to fit in the tree
-
-	nList := newVal()
-	return -1
+	switch {
+	case target == tree.Value:
+		return tree.Value
+	case target < tree.Value:
+		if tree.Left == nil {
+			return tree.Value
+		}
+		if target < 0 && tree.Value <= 0 {
+			if tree.Value >= tree.Left.Value {
+				return tree.Value
+			} else {
+				return tree.Left.FindClosestValue(target)
+			}
+		}
+		return tree.Left.FindClosestValue(target)
+	default:
+		if tree.Right == nil {
+			return tree.Value
+		}
+		if tree.Right.Value > target {
+			return tree.Value
+		}
+		return tree.Right.FindClosestValue(target)
+	}
 }
 
 // NOTE: I have not used binary trees or graphs in decades except as
