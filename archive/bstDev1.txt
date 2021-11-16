@@ -4,10 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"sync"
 )
 
 var wg sync.WaitGroup
+var leastMap map[int]int
 
 type Stack []BST
 
@@ -36,21 +38,14 @@ type BST struct {
 	Right *BST
 }
 
-type VAL struct {
-	nodeList *[]int
-}
-
 func NewBST(data int) *BST {
 	tmp := &BST{Value: data, Left: nil, Right: nil}
-	return tmp
-}
-
-func newVal() *VAL {
-	tmp := &VAL{nodeList: []int{}}
+	// tmp.AllValues = append(tmp.AllValues, data)
 	return tmp
 }
 
 func (n *BST) Process() {
+	// time.Sleep(2 * time.Second) // add time consuming things
 	fmt.Print(n.Value, " ")
 }
 
@@ -70,7 +65,7 @@ func DFRecImproved(n *BST) {
 		return
 	}
 	wg.Add(1)
-	go FRecImproved(n.Left)
+	go DFRecImproved(n.Left)
 	n.Process()
 	wg.Add(1)
 	go DFRecImproved(n.Right)
@@ -167,6 +162,7 @@ func (n *BST) Insertb(value int) error {
 		}
 		return n.Right.Insertb(value)
 	}
+	return nil
 }
 
 func (n *BST) FindMin() int {
@@ -225,18 +221,57 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	return false
 }
 
-func (aNodeList *VAL) getAllNodes(t *BST, n int) {
-}
-
-func (aNodeList *VAL) addToNodeList(n int) {
-	aNodeList.nodeList = append(&aNodeList.nodeList, n)
-}
-
 func (tree *BST) FindClosestValue(target int) int {
-	// pseudocode:
-	// walk every node that the new value would walk to fit in the tree
-
-	nList := newVal()
+	// Note: you are really checking to see based on whether the target is initially bigger
+	// or smaller than the parent to walk the tree; return the value with the smallest
+	// difference on either side
+	switch {
+	case tree.Value == target:
+		fmt.Println(tree.Value, " = ", target)
+		return tree.Value
+	case tree.Value > target:
+		fmt.Println("going to the left of: ", tree.Value)
+		if tree.Left == nil {
+			fmt.Println("returning: ", tree.Value)
+			return tree.Value
+		} else {
+			if tree.Left.Value < target {
+				c := int(math.Abs(float64(tree.Value) - float64(target)))
+				l := int(math.Abs(float64(tree.Left.Value) - float64(target)))
+				if l < c {
+					fmt.Println(l, " :left node diff < current node diff: ", c)
+					fmt.Println("Returning the left node value: ", tree.Left.Value)
+					return tree.Left.Value
+				}
+				fmt.Println(c, " :current node diff <= left node diff: ", l)
+				fmt.Println("Returning the current node value: ", tree.Value)
+				return tree.Value
+			}
+			fmt.Println("going to: ", tree.Left.Value)
+			return tree.Left.FindClosestValue(target)
+		}
+	default:
+		fmt.Println("going to the right of: ", tree.Value)
+		if tree.Right == nil {
+			fmt.Println("returning: ", tree.Value)
+			return tree.Value
+		} else {
+			if tree.Right.Value > target {
+				c := int(math.Abs(float64(tree.Value) - float64(target)))
+				r := int(math.Abs(float64(tree.Right.Value) - float64(target)))
+				if r < c {
+					fmt.Println(r, " :right node diff < current node diff: ", c)
+					fmt.Println("Returning the right node value: ", tree.Right.Value)
+					return tree.Right.Value
+				}
+				fmt.Println(c, " :current node diff <= right node diff: ", r)
+				fmt.Println("Returning the current node value: ", tree.Value)
+				return tree.Value
+			}
+			fmt.Println("going to: ", tree.Right.Value)
+			return tree.Right.FindClosestValue(target)
+		}
+	}
 	return -1
 }
 
