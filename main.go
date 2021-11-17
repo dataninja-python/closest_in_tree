@@ -41,9 +41,9 @@ func main() {
 		5, 15, 22, 57, 60, 5, 2, 3, 1, 1, 1, 1, 1, -51, -403}
 	// bTreeSlice = append(bTreeSlice)
 	// sort.Ints(bTreeSlice)
-	/* for _, v := range bTreeSlice {
+	/*for _, v := range bTreeSlice {
 		n.Insert(v)
-	} */
+	}*/
 
 	for _, w := range bTreeSlice1 {
 		n1.Insert(w)
@@ -85,8 +85,9 @@ func main() {
 	// fmt.Println(n.FindClosestValue(t))
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
 
-	t1 := -70
-	fmt.Println("Target to find closest number to in tree below: ", t1)
+	t1 := 4500
+	fmt.Println("Target to number closest to ", t1, " in tree.")
+	fmt.Println("\n")
 	fmt.Println(n1.FindClosestValue(t1))
 	// bst.PrintTree(os.Stdout, n1, 0, 'M')
 }

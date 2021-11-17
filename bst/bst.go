@@ -2,13 +2,9 @@ package bst
 
 import (
 	"errors"
-	"fmt"
-	"io"
-	"math"
-	"sync"
 )
 
-var wg sync.WaitGroup
+/*var wg sync.WaitGroup
 
 type Stack []BST
 
@@ -29,7 +25,7 @@ func (s *Stack) POP() (*BST, bool) {
 		*s = (*s)[:top]
 		return &item, true
 	}
-}
+}*/
 
 type BST struct {
 	Value int
@@ -42,19 +38,19 @@ func NewBST(data int) *BST {
 	return tmp
 }
 
-func (n *BST) Process() {
+/*func (n *BST) Process() {
 	fmt.Print(n.Value, " ")
-}
+}*/
 
 // recursively walk through tree
-func DFRec(n *BST) {
+/*func DFRec(n *BST) {
 	if n == nil {
 		return
 	}
 	DFRec(n.Left)
 	n.Process()
 	DFRec(n.Right)
-}
+}*/
 
 // recursively walk through tree
 /*func DFRecImproved(n *BST) {
@@ -87,7 +83,7 @@ func DF(n *BST) {
 	}
 }*/
 
-func DFOrdered(n *BST) {
+/*func DFOrdered(n *BST) {
 	s := Stack{}
 	current := n
 	for {
@@ -103,7 +99,7 @@ func DFOrdered(n *BST) {
 			current = current.Right
 		}
 	}
-}
+}*/
 
 func (n *BST) Insert(v int) {
 	if n == nil {
@@ -123,7 +119,7 @@ func (n *BST) Insert(v int) {
 	}
 }
 
-func PrintTree(w io.Writer, n *BST, ns int, ch rune) {
+/*func PrintTree(w io.Writer, n *BST, ns int, ch rune) {
 	if n == nil {
 		return
 	}
@@ -133,7 +129,7 @@ func PrintTree(w io.Writer, n *BST, ns int, ch rune) {
 	fmt.Fprintf(w, "%c:%v\n", ch, n.Value)
 	PrintTree(w, n.Left, ns+2, 'L')
 	PrintTree(w, n.Right, ns+2, 'R')
-}
+}*/
 
 func (n *BST) InsertSlice(aSlice []int) {
 	for _, v := range aSlice {
@@ -161,7 +157,7 @@ func (n *BST) Insertb(value int) error {
 	}
 }
 
-func (n *BST) FindMin() int {
+/*func (n *BST) FindMin() int {
 	if n.Left == nil {
 		return n.Value
 	}
@@ -173,16 +169,16 @@ func (n *BST) FindMax() int {
 		return n.Value
 	}
 	return n.Right.FindMax()
-}
+}*/
 
-func (n *BST) PrintInOrder() {
+/*func (n *BST) PrintInOrder() {
 	if n == nil {
 		return
 	}
 	n.Left.PrintInOrder()
 	fmt.Print(n.Value)
 	n.Right.PrintInOrder()
-}
+}*/
 
 // returns node that contains the supplied int param
 func (n *BST) FindNodeWithValue(v int) (BST, bool) {
@@ -207,7 +203,7 @@ func (n *BST) FindNodeWithValue(v int) (BST, bool) {
 // returns the int and bool to say if first int param < second one
 // can use recursively in binary search to check walk through tree
 // Note: core check is if x < y, so if y <= x will return y
-func (n *BST) IsXLessThanY(x, y int) bool {
+/*func (n *BST) IsXLessThanY(x, y int) bool {
 	if x < y {
 		return true
 	}
@@ -215,39 +211,12 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 	// child >= parent = right is how the tree is constructed
 	// thus, this is the proper way to execut this
 	return false
-}
+}*/
 
 func (tree *BST) FindClosestValue(target int) int {
 	// pseudocode:
 	// walk every node that the new value would walk to fit in the tree
-	fmt.Println("Initial code value: ", tree.Value)
-	switch {
-	case target == tree.Value:
-		fmt.Println("Returning value: ", tree.Value)
-		return tree.Value
-	case target < tree.Value:
-		if tree.Left == nil {
-			return tree.Value
-		}
-		if target > tree.Left.Value {
-			return tree.Value
-		}
-		if int(math.Abs(float64(tree.Left.Value)-float64(target))) >= int(math.Abs(float64(tree.Value)-float64(target))) {
-			return tree.Value
-		}
-		return tree.Left.FindClosestValue(target)
-	default:
-		if tree.Right == nil {
-			return tree.Value
-		}
-		if tree.Value-target < 0 {
-			return tree.Right.FindClosestValue(target)
-		}
-		if target > tree.Value || (tree.Right.Value-target) < (tree.Value-target) {
-			return tree.Right.FindClosestValue(target)
-		}
-		return tree.Value
-	}
+	return -1
 }
 
 // NOTE: I have not used binary trees or graphs in decades except as
