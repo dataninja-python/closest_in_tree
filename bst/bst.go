@@ -2,6 +2,7 @@ package bst
 
 import (
 	"errors"
+	"fmt"
 )
 
 /*var wg sync.WaitGroup
@@ -216,6 +217,36 @@ func (n *BST) FindNodeWithValue(v int) (BST, bool) {
 func (tree *BST) FindClosestValue(target int) int {
 	// pseudocode:
 	// walk every node that the new value would walk to fit in the tree
+	temp := make(map[int]loop)
+	output := make(map[int]loop)
+
+	addToMap := func(nv int, om map[int]bool) map[int]bool {
+		// simply returns if you should go left
+		output := make(map[int]bool)
+		if _, ok := om[nv]; !ok {
+			output[nv] = true
+		}
+		return output
+	}
+
+	traverseTree := func(t BST, v int, m map[int]bool) map[int]bool {
+		switch {
+		case t == nil:
+			return m
+		case v < t.Value:
+			m = addToMap(v, m)
+			return traverseTree(t.Left, v, m)
+		case v > t.Value:
+			m = addToMap(v, m)
+			return traverseTree(t.Right, v, m)
+		default:
+			m = addToMap(v, m)
+			return m
+		}
+	}
+
+	output = traverseTree(tree, target, temp)
+	fmt.Println(output)
 	return -1
 }
 
