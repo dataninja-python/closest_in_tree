@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"sync"
 )
 
@@ -219,29 +220,33 @@ func (n *BST) IsXLessThanY(x, y int) bool {
 func (tree *BST) FindClosestValue(target int) int {
 	// pseudocode:
 	// walk every node that the new value would walk to fit in the tree
+	fmt.Println("Initial code value: ", tree.Value)
 	switch {
 	case target == tree.Value:
+		fmt.Println("Returning value: ", tree.Value)
 		return tree.Value
 	case target < tree.Value:
 		if tree.Left == nil {
 			return tree.Value
 		}
-		if target < 0 && tree.Value <= 0 {
-			if tree.Value >= tree.Left.Value {
-				return tree.Value
-			} else {
-				return tree.Left.FindClosestValue(target)
-			}
+		if target > tree.Left.Value {
+			return tree.Value
+		}
+		if int(math.Abs(float64(tree.Left.Value)-float64(target))) >= int(math.Abs(float64(tree.Value)-float64(target))) {
+			return tree.Value
 		}
 		return tree.Left.FindClosestValue(target)
 	default:
 		if tree.Right == nil {
 			return tree.Value
 		}
-		if tree.Right.Value > target {
-			return tree.Value
+		if tree.Value-target < 0 {
+			return tree.Right.FindClosestValue(target)
 		}
-		return tree.Right.FindClosestValue(target)
+		if target > tree.Value || (tree.Right.Value-target) < (tree.Value-target) {
+			return tree.Right.FindClosestValue(target)
+		}
+		return tree.Value
 	}
 }
 
