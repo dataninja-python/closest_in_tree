@@ -2,7 +2,6 @@ package bst
 
 import (
 	"errors"
-	"math"
 )
 
 /*var wg sync.WaitGroup
@@ -158,29 +157,6 @@ func (n *BST) Insertb(value int) error {
 	}
 }
 
-/*func (n *BST) FindMin() int {
-	if n.Left == nil {
-		return n.Value
-	}
-	return n.Left.FindMin()
-}
-
-func (n *BST) FindMax() int {
-	if n.Right == nil {
-		return n.Value
-	}
-	return n.Right.FindMax()
-}*/
-
-/*func (n *BST) PrintInOrder() {
-	if n == nil {
-		return
-	}
-	n.Left.PrintInOrder()
-	fmt.Print(n.Value)
-	n.Right.PrintInOrder()
-}*/
-
 // returns node that contains the supplied int param
 func (n *BST) FindNodeWithValue(v int) (BST, bool) {
 	// if tree is empty return empty tree and false
@@ -214,70 +190,29 @@ func (n *BST) FindNodeWithValue(v int) (BST, bool) {
 	return false
 }*/
 
-func addToMap(value int, aMap map[int]bool) map[int]bool {
-	result := make(map[int]bool, len(aMap))
-	for k, v := range aMap {
-		result[k] = v
+func absDiff(x, y int) int {
+	if x > y {
+		return x - y
 	}
-	if _, ok := result[value]; !ok {
-		result[value] = true
-	}
-	return result
+	return y - x
 }
 
-func searchTree(t *BST, v int, m map[int]bool) map[int]bool {
-	if t == nil {
-		return m
+func (tree *BST) getClosest(theTarget, closest int) int {
+	switch {
+	case theTarget == closest:
+		return closest
+	case absDiff(theTarget, closest) > absDiff(theTarget, tree.Value):
+		closest = tree.Value
+	case target < tree.Value && tree.Left != nil:
+		return tree.Left.getClosest(theTarget, closest)
+	case target > tree.Value && tree.Right != nil:
+		return tree.Right.getClosest(theTarget, closest)
 	}
-	if v == t.Value {
-		m = addToMap(t.Value, m)
-		return m
-	}
-	if v < t.Value {
-		m = addToMap(t.Value, m)
-		return searchTree(t.Left, v, m)
-	}
-	if v > t.Value {
-		m = addToMap(t.Value, m)
-		return searchTree(t.Right, v, m)
-	}
-	return m
+	return closest
 }
 
 func (tree *BST) FindClosestValue(target int) int {
-	// pseudocode:
-	// walk every node that the new value would walk to fit in the tree
-	temp := make(map[int]bool)
-	final := 0
-
-	output := searchTree(tree, target, temp)
-
-	incInt := func(begin int) func() int {
-		inc := begin
-		return func() int {
-			inc += 1
-			return inc
-		}
-	}
-
-	adder := incInt(0)
-	current := 0
-	for k, _ := range output {
-		next := int(math.Abs(float64(k) - float64(target)))
-		if adder() == 1 {
-			final = k
-			current = int(math.Abs(float64(k) - float64(target)))
-		}
-		if k == target {
-			final = k
-		}
-		if next < current {
-			final = k
-			current = int(math.Abs(float64(k) - float64(target)))
-		}
-		adder()
-	}
-	return final
+	return tree.getClosest(target, tree.Value)
 }
 
 // NOTE: I have not used binary trees or graphs in decades except as
