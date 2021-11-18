@@ -2,7 +2,7 @@ package bst
 
 import (
 	"errors"
-	"fmt"
+	"math"
 )
 
 /*var wg sync.WaitGroup
@@ -229,12 +229,16 @@ func searchTree(t *BST, v int, m map[int]bool) map[int]bool {
 	if t == nil {
 		return m
 	}
+	if v == t.Value {
+		m = addToMap(t.Value, m)
+		return m
+	}
 	if v < t.Value {
-		m = addToMap(v, m)
+		m = addToMap(t.Value, m)
 		return searchTree(t.Left, v, m)
 	}
 	if v > t.Value {
-		m = addToMap(v, m)
+		m = addToMap(t.Value, m)
 		return searchTree(t.Right, v, m)
 	}
 	return m
@@ -244,11 +248,36 @@ func (tree *BST) FindClosestValue(target int) int {
 	// pseudocode:
 	// walk every node that the new value would walk to fit in the tree
 	temp := make(map[int]bool)
+	final := 0
 
 	output := searchTree(tree, target, temp)
-	fmt.Println(output)
 
-	return -1
+	incInt := func(begin int) func() int {
+		inc := begin
+		return func() int {
+			inc += 1
+			return inc
+		}
+	}
+
+	adder := incInt(0)
+	current := 0
+	for k, _ := range output {
+		next := int(math.Abs(float64(k) - float64(target)))
+		if adder() == 1 {
+			final = k
+			current = int(math.Abs(float64(k) - float64(target)))
+		}
+		if k == target {
+			final = k
+		}
+		if next < current {
+			final = k
+			current = int(math.Abs(float64(k) - float64(target)))
+		}
+		adder()
+	}
+	return final
 }
 
 // NOTE: I have not used binary trees or graphs in decades except as

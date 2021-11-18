@@ -85,7 +85,7 @@ func main() {
 	// fmt.Println(n.FindClosestValue(t))
 	// bst.PrintTree(os.Stdout, n, 0, 'M')
 
-	t1 := 4500
+	t1 := 29749
 	fmt.Println("Target to number closest to ", t1, " in tree.")
 	fmt.Println("\n")
 	fmt.Println(n1.FindClosestValue(t1))
